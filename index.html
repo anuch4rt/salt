@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>กล่องสุ่มสลายมโน 🎁 Salt Box Simulator</title>
+    <title>กล่องสุ่มสลายมโน 🎁 Salt Box Simulator Pro</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
@@ -21,18 +21,19 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
+            padding: 40px 20px;
             overflow-x: hidden;
             position: relative;
         }
 
         /* Background Effects */
         .glow-bg {
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(236, 72, 153, 0.25) 0%, rgba(0,0,0,0) 70%);
-            top: 50%;
+            position: fixed;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(236, 72, 153, 0.2) 0%, rgba(0,0,0,0) 70%);
+            top: 30%;
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 0;
@@ -42,8 +43,8 @@
         .container {
             z-index: 1;
             text-align: center;
-            max-width: 650px;
-            padding: 20px;
+            max-width: 750px;
+            width: 100%;
         }
 
         h1 {
@@ -60,15 +61,55 @@
         .subtitle {
             color: #a78bfa;
             font-size: 1.1rem;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
+        }
+
+        /* Action Buttons Header */
+        .action-bar {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #e2e8f0;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .btn-ig {
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+            color: white;
+            border: none;
+            box-shadow: 0 4px 15px rgba(220, 39, 67, 0.4);
+        }
+
+        .btn-ig:hover {
+            box-shadow: 0 6px 20px rgba(220, 39, 67, 0.7);
         }
 
         /* Mystery Box Styling */
         .box-stage {
             position: relative;
-            width: 220px;
-            height: 220px;
-            margin: 0 auto 40px;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 30px;
             perspective: 1000px;
             cursor: pointer;
         }
@@ -84,18 +125,10 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 6rem;
+            font-size: 5.5rem;
             position: relative;
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             animation: boxIdle 3s infinite ease-in-out;
-        }
-
-        .mystery-box::before {
-            content: '?';
-            position: absolute;
-            font-size: 7rem;
-            font-weight: 800;
-            color: rgba(255, 255, 255, 0.05);
         }
 
         .box-stage:hover .mystery-box {
@@ -104,7 +137,6 @@
             border-color: #fb7185;
         }
 
-        /* Box Animations */
         @keyframes boxIdle {
             0%, 100% { transform: translateY(0) rotate(0deg); }
             50% { transform: translateY(-15px) rotate(-1deg); }
@@ -128,7 +160,7 @@
             animation: boxShake 0.1s infinite !important;
         }
 
-        /* Button Styling */
+        /* Primary Button */
         .btn-open {
             background: linear-gradient(90deg, #ec4899, #8b5cf6);
             border: none;
@@ -141,8 +173,6 @@
             box-shadow: 0 10px 25px rgba(236, 72, 153, 0.5);
             transition: all 0.3s ease;
             outline: none;
-            position: relative;
-            overflow: hidden;
         }
 
         .btn-open:hover {
@@ -150,22 +180,50 @@
             box-shadow: 0 15px 35px rgba(236, 72, 153, 0.7);
         }
 
-        .btn-open:active {
-            transform: translateY(1px);
-        }
-
         .btn-open:disabled {
             opacity: 0.6;
             cursor: not-allowed;
         }
 
-        /* Modal Result Styling */
+        /* Rate Info Box */
+        .rate-info {
+            margin-top: 30px;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 15px 20px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.85rem;
+            color: #94a3b8;
+        }
+
+        .rate-list {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+
+        .rate-item {
+            background: rgba(0,0,0,0.4);
+            padding: 4px 10px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .rate-img-thumb {
+            width: 18px;
+            height: 18px;
+            object-fit: contain;
+        }
+
+        /* Modals (Result & History) */
         .modal {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.85);
             backdrop-filter: blur(10px);
             display: flex;
@@ -185,11 +243,13 @@
         .modal-content {
             background: linear-gradient(135deg, #241442, #120824);
             border: 2px solid #8b5cf6;
-            padding: 40px;
+            padding: 35px 25px;
             border-radius: 30px;
             text-align: center;
-            max-width: 450px;
+            max-width: 480px;
             width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
             transform: scale(0.5);
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow: 0 0 50px rgba(139, 92, 246, 0.5);
@@ -200,21 +260,21 @@
         }
 
         .prize-container {
-            height: 140px;
+            height: 130px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
 
         .prize-icon {
-            font-size: 6rem;
+            font-size: 5.5rem;
             animation: bounceIcon 1s ease infinite alternate;
         }
 
         .prize-img {
-            max-width: 130px;
-            max-height: 130px;
+            max-width: 120px;
+            max-height: 120px;
             object-fit: contain;
             filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.4));
             animation: bounceIcon 1s ease infinite alternate;
@@ -225,17 +285,25 @@
             to { transform: translateY(-10px) scale(1.08); }
         }
 
-        .prize-title {
-            font-size: 1.8rem;
-            font-weight: 800;
-            margin-bottom: 10px;
+        .prize-title { font-size: 1.6rem; font-weight: 800; margin-bottom: 8px; }
+        .prize-desc { color: #cbd5e1; font-size: 0.95rem; margin-bottom: 20px; line-height: 1.4; }
+
+        /* Meta details inside Result */
+        .result-meta {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px dashed rgba(255,255,255,0.15);
+            border-radius: 12px;
+            padding: 10px;
+            font-size: 0.75rem;
+            color: #a78bfa;
+            text-align: left;
+            margin-bottom: 20px;
         }
 
-        .prize-desc {
-            color: #cbd5e1;
-            font-size: 0.95rem;
-            margin-bottom: 25px;
-            line-height: 1.5;
+        .modal-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
         .btn-close {
@@ -249,50 +317,126 @@
             transition: 0.2s;
         }
 
-        .btn-close:hover {
-            background: #475569;
-        }
+        .btn-close:hover { background: #475569; }
 
-        /* Rate Info Box (Dev/Visual) */
-        .rate-info {
-            margin-top: 40px;
-            background: rgba(255, 255, 255, 0.03);
-            padding: 15px 25px;
-            border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            font-size: 0.85rem;
-            color: #94a3b8;
-        }
-
-        .rate-list {
+        /* History Table Styling */
+        .history-list {
+            text-align: left;
+            margin: 20px 0;
             display: flex;
-            justify-content: center;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-top: 8px;
+            flex-direction: column;
+            gap: 10px;
         }
 
-        .rate-item {
-            background: rgba(0,0,0,0.4);
-            padding: 5px 12px;
-            border-radius: 8px;
+        .history-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px 15px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .history-info div { line-height: 1.3; }
+        .history-item-name { font-weight: bold; font-size: 0.95rem; }
+        .history-details { font-size: 0.72rem; color: #94a3b8; }
+
+        /* TROLL REVIEWS SECTION */
+        .reviews-section {
+            margin-top: 50px;
+            text-align: left;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 25px;
+        }
+
+        .reviews-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .reviews-title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: #f43f5e;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
         }
 
-        .rate-img-thumb {
-            width: 20px;
-            height: 20px;
-            object-fit: contain;
+        .review-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
+
+        .review-card {
+            background: rgba(15, 7, 32, 0.6);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 16px;
+            padding: 15px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .review-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ec4899, #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+
+        .review-body { flex-grow: 1; }
+        .review-user { font-weight: bold; font-size: 0.95rem; color: #cbd5e1; }
+        .review-stars { color: #facc15; font-size: 0.8rem; margin: 2px 0; }
+        .review-comment { font-size: 0.88rem; color: #94a3b8; line-height: 1.4; }
+
+        /* Comment Input Box */
+        .add-comment-box {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .comment-input {
+            flex-grow: 1;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 10px 15px;
+            color: white;
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        .comment-input:focus { border-color: #ec4899; }
+
+        .btn-comment {
+            background: #8b5cf6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .btn-comment:hover { background: #7c3aed; }
 
         canvas#confetti {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             pointer-events: none;
             z-index: 99;
         }
@@ -307,6 +451,14 @@
         <h1>✨ LUCKY BLIND BOX ✨</h1>
         <p class="subtitle">วัดดวงของคุณวันนี้... จะเศรษฐีใหม่ หรือสายสลายมโน!</p>
 
+        <!-- Bar สำหรับแชร์ IG และ ดูประวัติ -->
+        <div class="action-bar">
+            <button class="btn-secondary" onclick="openHistoryModal()">📜 ดูประวัติการสุ่ม (Logs)</button>
+            <a href="https://www.instagram.com/sxrx_wut.18/" target="_blank" class="btn-secondary btn-ig">
+                📸 แคปภาพส่ง IG: @sxrx_wut.18
+            </a>
+        </div>
+
         <div class="box-stage" id="boxStage">
             <div class="mystery-box" id="mysteryBox">🎁</div>
         </div>
@@ -317,49 +469,93 @@
             ⚙️ <b>อัตราการดรอปปัจจุบัน (Dev Rate View):</b>
             <div class="rate-list" id="rateDisplay"></div>
         </div>
+
+        <!-- REVIEWS / TROLL COMMENT SECTION -->
+        <div class="reviews-section">
+            <div class="reviews-header">
+                <div class="reviews-title">🔥 รีวิวจากผู้ใช้สลายมโน (History Comments)</div>
+                <span style="font-size: 0.8rem; color: #94a3b8;">รีวิวการันตีความเกลือ 100%</span>
+            </div>
+            
+            <div class="review-grid" id="reviewContainer">
+                <!-- Comments will be rendered here -->
+            </div>
+
+            <!-- Add Comment Form -->
+            <div class="add-comment-box">
+                <input type="text" id="commentInput" class="comment-input" placeholder="พิมพ์รีวิวสลายมโนของคุณที่นี่...">
+                <button class="btn-comment" onclick="postComment()">ส่งรีวิว</button>
+            </div>
+        </div>
     </div>
 
-    <!-- Modal ผลลัพธ์ -->
+    <!-- Modal 1: ผลลัพธ์ -->
     <div class="modal" id="resultModal">
         <div class="modal-content">
-            <div class="prize-container" id="prizeDisplay">
-                <!-- รูปหรือ Emoji จะถูกแทรกที่นี่ -->
-            </div>
+            <div class="prize-container" id="prizeDisplay"></div>
             <div class="prize-title" id="prizeTitle">ชื่อรางวัล</div>
             <p class="prize-desc" id="prizeDesc">รายละเอียดรางวัล</p>
-            <button class="btn-close" onclick="closeModal()">ลองใหม่อีกที (แก้แค้น)</button>
+
+            <!-- Metadata Info -->
+            <div class="result-meta" id="resultMeta">
+                <div>🌐 <b>IP:</b> <span id="metaIp">กำลังบันทึก...</span></div>
+                <div>📍 <b>Location:</b> <span id="metaLoc">กำลังบันทึก...</span></div>
+                <div>📱 <b>Device:</b> <span id="metaDevice">กำลังบันทึก...</span></div>
+            </div>
+
+            <div class="modal-actions">
+                <a href="https://www.instagram.com/sxrx_wut.18/" target="_blank" class="btn-secondary btn-ig" style="justify-content: center;">
+                    📸 แคปหน้าจอนี้ส่ง IG: @sxrx_wut.18 เพื่อรับรางวัล!
+                </a>
+                <button class="btn-close" onclick="closeModal()">ลองใหม่อีกที (แก้แค้น)</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 2: ประวัติการสุ่ม (Logs) -->
+    <div class="modal" id="historyModal">
+        <div class="modal-content">
+            <h2 style="color: #a78bfa; margin-bottom: 5px;">📜 ประวัติการสุ่มของคุณ</h2>
+            <p style="font-size: 0.8rem; color: #94a3b8;">บันทึกข้อมูล IP, Device และเวลาอย่างละเอียดในเครื่อง</p>
+            
+            <div class="history-list" id="historyList">
+                <!-- Log items rendered here -->
+            </div>
+
+            <div style="display: flex; gap: 10px; justify-content: center;">
+                <button class="btn-close" style="background: #e11d48;" onclick="clearHistory()">ลบประวัติ</button>
+                <button class="btn-close" onclick="closeHistoryModal()">ปิด</button>
+            </div>
         </div>
     </div>
 
     <script>
         // =============================================================
-        // 🛠️ DEV CONFIG: ปรับอัตราออกของ (Drop Rate) และใส่ URL รูปภาพได้ที่นี่!
-        // - สามารถใส่ imgUrl: 'https://...' แทนการใช้ Emoji ได้
-        // - หากเว้น imgUrl เป็น '' ระบบจะแสดง icon (Emoji) แทน
+        // 🛠️ DEV CONFIG: Drop Rates
         // =============================================================
         const REWARDS = [
             {
                 id: 'salt',
                 name: 'เกลือสมุทรบริสุทธิ์ 100%',
-                weight: 99.999999999, // อัตราออก 99.999999999% (มหาโคตรเกลือ)
+                weight: 99.999999999,
                 icon: '🧂',
-                imgUrl: 'https://s.isanook.com/wo/0/ud/51/259021/theadventagesofsalt.jpg?ip/crop/w670h402/q80/jpg', // ตัวอย่าง URL รูปภาพ
+                imgUrl: 'https://s.isanook.com/wo/0/ud/51/259021/theadventagesofsalt.jpg?ip/crop/w670h402/q80/jpg',
                 color: '#94a3b8',
                 desc: 'ยินดีด้วย! คุณได้รับเกลือคุณภาพดีเอาไว้ทาแผลใจ คืนนี้กินเกลือแทนข้าวไปก่อนนะ 5555+'
             },
             {
                 id: 'dollar1',
                 name: '1 Dollar ($1)',
-                weight: 0.0000000008, // 0.00000008%
+                weight: 0.0000000008,
                 icon: '💵',
-                imgUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROL1lOTKZ6zt--26g7cBOZH6IjLEVwacJPGDugVsErdw&s=10', // หากเว้นว่างไว้ จะใช้ Emoji 💵 แทน
+                imgUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROL1lOTKZ6zt--26g7cBOZH6IjLEVwacJPGDugVsErdw&s=10',
                 color: '#4ade80',
                 desc: 'โอ้โห! คุณคือผู้โชคดี 1 ในร้อยล้าน! ได้ $1 (ประมาณ 35 บาท) เอาไปซื้อมาม่าต้มยำกุ้งกินได้ 1 ซองถ้วน!'
             },
             {
                 id: 'dollar1000',
                 name: '1,000 Dollars ($1,000)',
-                weight: 0.00000000019, // 0.000000019%
+                weight: 0.00000000019,
                 icon: '💰',
                 imgUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_XLoW4B1W3dDPpZn6lWs7Tr2yi6u8sWTFWvVvLWINTQ&s=10',
                 color: '#facc15',
@@ -368,25 +564,68 @@
             {
                 id: 'iphone19',
                 name: 'iPhone 19 Pro Max',
-                weight: 0.00000000001, // 0.000000001% (แรร์ระดับปาฏิหาริย์)
+                weight: 0.00000000001,
                 icon: '📱',
                 imgUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmByhkfKEgJNfRBTw36h50DgLSajsLFSP2TkewkT_fB4OH2nz5QEnav74&s=10',
                 color: '#ec4899',
                 desc: 'กล่องแตก!! ปาฏิหาริย์มีจริง คุณได้รับ iPhone 19 Pro Max! โปรดมารับสินค้าได้ในปี ค.ศ. 2027 นะน้อง!'
             }
         ];
-        // =============================================================
 
-        // ฟังก์ชันฟอร์แมตเปอร์เซ็นต์ให้แสดงทศนิยมอย่างถูกต้องแม้จะมีขนาดเล็กมาก
+        // Default Troll Comments
+        const INITIAL_COMMENTS = [
+            { name: "สายเกลือพรีเมี่ยม", avatar: "🧂", stars: "⭐⭐⭐⭐⭐", text: "สุ่มไป 500 รอบ ได้เกลือ 500 รอบ สมจริงมากครับ เว็บนี้ทำให้ผมซาบซึ้งกับคำว่าดวงจิ๋มมด 10/10" },
+            { name: "เสี่ยทิพย์ท่านหนึ่ง", avatar: "😎", stars: "⭐⭐⭐⭐⭐", text: "กดทีเดียวได้ iPhone 19 Pro Max เลยครับ! ตอนนี้ปี 2026 รออีกปีเดียวเดี๋ยวไปรับของหน้าโรงงาน Apple!" },
+            { name: "CEO เกลืออินเตอร์", avatar: "🤠", stars: "⭐⭐⭐⭐⭐", text: "เกลืออร่อยมากครับ เอาไปทำไข่เค็มขายจนเปิดบริษัทได้แล้ว ขอบคุณเว็บสลายมโนมากครับ!" },
+            { name: "นักสุ่มสลายมโน", avatar: "🤡", stars: "⭐⭐⭐⭐⭐", text: "เติมเงินไป 0 บาท แต่ความผิดหวังเต็ม 100 ครับ แนะนำเลยสำหรับคนอยากเช็กดวงตัวเอง 5555" }
+        ];
+
+        // Dynamic User Metadata Container
+        let currentUserMeta = {
+            ip: 'กำลังดึงข้อมูล...',
+            location: 'กำลังระบุ...',
+            device: 'Unknown Device'
+        };
+
+        // Fetch User Info (IP, Location, Device)
+        async function fetchUserData() {
+            // Get Device Info
+            const ua = navigator.userAgent;
+            let os = "Desktop";
+            if (/Android/i.test(ua)) os = "Android";
+            else if (/iPhone|iPad/i.test(ua)) os = "iOS";
+            else if (/Windows/i.test(ua)) os = "Windows";
+            else if (/Mac/i.test(ua)) os = "macOS";
+
+            let browser = "Browser";
+            if (/Chrome/i.test(ua)) browser = "Chrome";
+            else if (/Safari/i.test(ua) && !/Chrome/i.test(ua)) browser = "Safari";
+            else if (/Firefox/i.test(ua)) browser = "Firefox";
+
+            currentUserMeta.device = `${os} (${browser}) - ${window.screen.width}x${window.screen.height}`;
+
+            // Get IP & Location via free public API
+            try {
+                const res = await fetch('https://ipapi.co/json/');
+                const data = await res.json();
+                currentUserMeta.ip = data.ip || '127.0.0.1';
+                currentUserMeta.location = `${data.city || 'Bangkok'}, ${data.country_name || 'Thailand'}`;
+            } catch (e) {
+                // Fallback if blocked by AdBlocker
+                currentUserMeta.ip = '110.168.x.x (Encrypted)';
+                currentUserMeta.location = 'Bangkok, Thailand';
+            }
+        }
+        fetchUserData();
+
+        // Display Drop Rates
         function formatPercentage(weight, totalWeight) {
             const pct = (weight / totalWeight) * 100;
             if (pct >= 99.9) return pct.toFixed(9) + '%';
             if (pct >= 1) return pct.toFixed(2) + '%';
-            // สำหรับเปอร์เซ็นต์ขนาดเล็กมาก เช่น 0.000000001%
             return pct.toFixed(11).replace(/0+$/, '').replace(/\.$/, '') + '%';
         }
 
-        // แสดงอัตราการออกบนหน้าเว็บ
         function displayRates() {
             const totalWeight = REWARDS.reduce((sum, r) => sum + r.weight, 0);
             const rateDisplay = document.getElementById('rateDisplay');
@@ -400,23 +639,18 @@
         }
         displayRates();
 
+        // Gacha Logic
         let isOpening = false;
-
-        // สุ่มรางวัลตาม Weight
         function getRandomReward() {
             const totalWeight = REWARDS.reduce((sum, r) => sum + r.weight, 0);
             let random = Math.random() * totalWeight;
-            
             for (let reward of REWARDS) {
-                if (random < reward.weight) {
-                    return reward;
-                }
+                if (random < reward.weight) return reward;
                 random -= reward.weight;
             }
             return REWARDS[0];
         }
 
-        // ฟังก์ชันเปิดกล่อง
         function openBox() {
             if (isOpening) return;
             isOpening = true;
@@ -426,14 +660,15 @@
             
             btn.disabled = true;
             btn.innerText = 'กำลังลุ้นดวงอันเค็มชื่น...';
-            
-            // เล่น Animation เขย่ากล่อง
             box.classList.add('shaking');
 
-            // หน่วงเวลาให้ลุ้น 2.5 วินาที
             setTimeout(() => {
                 box.classList.remove('shaking');
                 const prize = getRandomReward();
+                
+                // Save to local storage log
+                saveLog(prize);
+                
                 showResult(prize);
                 
                 btn.disabled = false;
@@ -442,17 +677,14 @@
             }, 2500);
         }
 
-        // คลิกที่กล่องเพื่อเปิดได้ด้วย
         document.getElementById('boxStage').addEventListener('click', openBox);
 
-        // แสดง Pop-up ผลลัพธ์
         function showResult(prize) {
             const modal = document.getElementById('resultModal');
             const prizeDisplay = document.getElementById('prizeDisplay');
             const title = document.getElementById('prizeTitle');
             const desc = document.getElementById('prizeDesc');
 
-            // แสดงผลรูปภาพ หรือ Emoji
             if (prize.imgUrl && prize.imgUrl.trim() !== '') {
                 prizeDisplay.innerHTML = `<img src="${prize.imgUrl}" alt="${prize.name}" class="prize-img">`;
             } else {
@@ -463,9 +695,13 @@
             title.style.color = prize.color;
             desc.innerText = prize.desc;
 
+            // Fill Metadata
+            document.getElementById('metaIp').innerText = currentUserMeta.ip;
+            document.getElementById('metaLoc').innerText = currentUserMeta.location;
+            document.getElementById('metaDevice').innerText = currentUserMeta.device;
+
             modal.classList.add('active');
 
-            // ถ้าไม่ได้เกลือ ให้ยิงพลุ Confetti
             if (prize.id !== 'salt') {
                 fireConfetti();
             }
@@ -476,7 +712,100 @@
         }
 
         // =============================================================
-        // Simple Particle Confetti System (ไม่ต้องพึ่งไลบรารีภายนอก)
+        // 📜 HISTORY LOG SYSTEM (localStorage)
+        // =============================================================
+        function saveLog(prize) {
+            const logs = JSON.parse(localStorage.getItem('salt_box_logs') || '[]');
+            const newLog = {
+                id: Date.now(),
+                prizeName: prize.name,
+                prizeIcon: prize.icon,
+                color: prize.color,
+                ip: currentUserMeta.ip,
+                location: currentUserMeta.location,
+                device: currentUserMeta.device,
+                time: new Date().toLocaleString('th-TH')
+            };
+            logs.unshift(newLog); // Add to top
+            localStorage.setItem('salt_box_logs', JSON.stringify(logs.slice(0, 30))); // Keep last 30
+        }
+
+        function openHistoryModal() {
+            const historyList = document.getElementById('historyList');
+            const logs = JSON.parse(localStorage.getItem('salt_box_logs') || '[]');
+            
+            if (logs.length === 0) {
+                historyList.innerHTML = `<div style="text-align:center; color:#94a3b8; padding:20px;">ยังไม่มีประวัติการสุ่ม ลองเปิดกล่องดูสิ!</div>`;
+            } else {
+                historyList.innerHTML = logs.map(log => `
+                    <div class="history-card">
+                        <div class="history-info">
+                            <div class="history-item-name" style="color:${log.color}">${log.prizeIcon} ${log.prizeName}</div>
+                            <div class="history-details">🌐 ${log.ip} | 📍 ${log.location}</div>
+                            <div class="history-details">📱 ${log.device}</div>
+                        </div>
+                        <div style="font-size:0.75rem; color:#a78bfa; text-align:right;">${log.time}</div>
+                    </div>
+                `).join('');
+            }
+            document.getElementById('historyModal').classList.add('active');
+        }
+
+        function closeHistoryModal() {
+            document.getElementById('historyModal').classList.remove('active');
+        }
+
+        function clearHistory() {
+            if (confirm('คุณต้องการลบประวัติการสุ่มทั้งหมดใช่ไหม?')) {
+                localStorage.removeItem('salt_box_logs');
+                openHistoryModal();
+            }
+        }
+
+        // =============================================================
+        // 💬 TROLL REVIEW SYSTEM
+        // =============================================================
+        function loadComments() {
+            const storedComments = JSON.parse(localStorage.getItem('salt_box_comments') || '[]');
+            const allComments = [...INITIAL_COMMENTS, ...storedComments];
+            const container = document.getElementById('reviewContainer');
+
+            container.innerHTML = allComments.map(c => `
+                <div class="review-card">
+                    <div class="review-avatar">${c.avatar}</div>
+                    <div class="review-body">
+                        <div class="review-user">${c.name}</div>
+                        <div class="review-stars">${c.stars}</div>
+                        <div class="review-comment">${c.text}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        loadComments();
+
+        function postComment() {
+            const input = document.getElementById('commentInput');
+            const val = input.value.trim();
+            if (!val) return;
+
+            const storedComments = JSON.parse(localStorage.getItem('salt_box_comments') || '[]');
+            const avatars = ['🥳', '🤪', '🥸', '💀', '👻', '🤖'];
+            const randomAvatar = avatars[Math.floor(Math.random() * avatars.length)];
+
+            storedComments.unshift({
+                name: "ผู้ใช้สลายมโนท่านหนึ่ง",
+                avatar: randomAvatar,
+                stars: "⭐⭐⭐⭐⭐",
+                text: val
+            });
+
+            localStorage.setItem('salt_box_comments', JSON.stringify(storedComments));
+            input.value = '';
+            loadComments();
+        }
+
+        // =============================================================
+        // 🎉 CONFETTI SYSTEM
         // =============================================================
         const canvas = document.getElementById('confetti');
         const ctx = canvas.getContext('2d');
@@ -511,7 +840,7 @@
             particles.forEach((p, index) => {
                 p.x += p.vx;
                 p.y += p.vy;
-                p.vy += 0.2; // Gravity
+                p.vy += 0.2;
                 p.life -= 1.5;
 
                 ctx.fillStyle = p.color;
